@@ -1,0 +1,2 @@
+# shoplist
+Simple Android sample
