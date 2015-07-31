@@ -7,7 +7,7 @@
 
     <string name="tab_shoplist">Shop List</string>
 
-    <string name="tab_additem">Add Item</string>
+    <string name="tab_additem">Item Detail</string>
       <string name="edt_descripton">Description</string>
       <string name="edt_unit">Unit</string>
       <string name="edt_quantity">Quantity</string>
@@ -31,6 +31,10 @@
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_map">Map</string>
+    <string name="msg_title">Alert!</string>
+    <string name="msg_exit">Are you sure?</string>
+    <string name="msg_btn_positive">Yes</string>
+    <string name="msg_btn_negative">No</string>
 
     <string-array name="unitlist">
         <item>Box</item>

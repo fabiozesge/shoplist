@@ -1,5 +1,7 @@
 package br.com.example.fabio.shoplist;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
@@ -147,7 +149,7 @@ public class ListActivity extends ActionBarActivity  implements android.view.Vie
         //noinspection SimplifiableIfStatement
         switch (id){
             case R.id.action_exit:
-                finish();
+                ExitorNoExit();
                 break;
             case R.id.action_adduser:
                 Intent i = new Intent(ListActivity.this, UserActivity.class);
@@ -156,5 +158,31 @@ public class ListActivity extends ActionBarActivity  implements android.view.Vie
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void ExitorNoExit() {
+        AlertDialog alertDialog = new AlertDialog.Builder(ListActivity.this).create();
+        alertDialog.setTitle(getResources().getString(R.string.msg_title));
+        alertDialog.setMessage(getResources().getString(R.string.msg_exit));
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.msg_btn_positive),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        exit();
+                    }
+
+                    private void exit() {
+                        finish();
+                        System.exit(0);
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.msg_btn_negative),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+
     }
 }
