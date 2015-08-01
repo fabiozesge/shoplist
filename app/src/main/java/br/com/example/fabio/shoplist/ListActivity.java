@@ -3,12 +3,13 @@ package br.com.example.fabio.shoplist;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +35,11 @@ public class ListActivity extends ActionBarActivity  implements android.view.Vie
     EditText edtProductQuantity;
     EditText edtProductBarnd;
     private int _Product_Id;
+    ListAdapter productadapter;
+    ListView productListView;
+    ArrayList<HashMap<String, String>> productList;
+    ProductRepo repo;
+    TabHost tabhost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,15 +85,13 @@ public class ListActivity extends ActionBarActivity  implements android.view.Vie
             if (_Product_Id==0){
                 _Product_Id = repo.insert(product);
 
-                Toast.makeText(this, "New Product Insert", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.product_insert), Toast.LENGTH_SHORT).show();
             }else{
                 repo.update(product);
-                Toast.makeText(this,"Student Product updated",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.product_update), Toast.LENGTH_SHORT).show();
             }
+            LoadProducts();
         }else if (view== findViewById(R.id.btnItemCancel)){
-            //ProductRepo repo = new ProductRepo(this);
-            //repo.delete(_Product_Id);
-            //Toast.makeText(this, "Product Record Deleted", Toast.LENGTH_SHORT);
             //finish();
         }else if (view== findViewById(R.id.btnItemCancel)){
             //finish();
@@ -97,12 +101,20 @@ public class ListActivity extends ActionBarActivity  implements android.view.Vie
     }
 
     private void InitializeListView() {
-        ListView productListView = (ListView)findViewById(R.id.listViewProduct);
-        ProductRepo repo = new ProductRepo(this);
-        ArrayList<HashMap<String, String>> productList =  repo.getProductList();
-        ListAdapter adapter = new SimpleAdapter( ListActivity.this, productList, R.layout.productlist, new String[] {"description","quantity", "unit", "brand"}, new int[]
-                {R.id.txtDescription, R.id.txtQuantity, R.id.txtUnit, R.id.txtBrand});
-        productListView.setAdapter(adapter);
+        productListView = (ListView)findViewById(R.id.listViewProduct);
+        registerForContextMenu(productListView);
+        LoadProducts();
+    }
+
+    private void LoadProducts() {
+        repo = new ProductRepo(this);
+        productList =  repo.getProductList();
+        productadapter = new SimpleAdapter( ListActivity.this, productList, R.layout.productlist,
+                new String[] {"product_id", "description","quantity", "unit", "brand"}, new int[]
+                {R.id.txtProductID, R.id.txtDescription, R.id.txtQuantity, R.id.txtUnit, R.id.txtBrand});
+        productListView.setAdapter(productadapter);
+        tabhost.setCurrentTab(0);
+
     }
 
     private void InitializeSpinner() {
@@ -119,7 +131,7 @@ public class ListActivity extends ActionBarActivity  implements android.view.Vie
     }
 
     private void InitializeTabs() {
-        TabHost tabhost = (TabHost) findViewById(R.id.tabHost);
+        tabhost = (TabHost) findViewById(R.id.tabHost);
         tabhost.setup();
         TabHost.TabSpec ts = tabhost.newTabSpec("tab1");
         ts.setContent(R.id.tab_ShopList);
@@ -141,15 +153,12 @@ public class ListActivity extends ActionBarActivity  implements android.view.Vie
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         switch (id){
             case R.id.action_exit:
-                ExitorNoExit();
+                ExitOrNotExit();
                 break;
             case R.id.action_adduser:
                 Intent i = new Intent(ListActivity.this, UserActivity.class);
@@ -160,7 +169,7 @@ public class ListActivity extends ActionBarActivity  implements android.view.Vie
         return super.onOptionsItemSelected(item);
     }
 
-    private void ExitorNoExit() {
+    private void ExitOrNotExit() {
         AlertDialog alertDialog = new AlertDialog.Builder(ListActivity.this).create();
         alertDialog.setTitle(getResources().getString(R.string.msg_title));
         alertDialog.setMessage(getResources().getString(R.string.msg_exit));
@@ -184,5 +193,28 @@ public class ListActivity extends ActionBarActivity  implements android.view.Vie
                 });
         alertDialog.show();
 
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.menu_product, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        int id = item.getItemId();
+
+        HashMap<String, String> selectedproduc = (HashMap<String, String> )productadapter.getItem(info.position);
+        _Product_Id = Integer.parseInt(selectedproduc.get("id"));
+        switch (id) {
+            case R.id.action_delete:
+                repo.delete(_Product_Id);
+                Toast.makeText(this, getResources().getString(R.string.product_delete), Toast.LENGTH_SHORT);
+                LoadProducts();
+                break;
+        }
+        return super.onContextItemSelected(item);
     }
 }

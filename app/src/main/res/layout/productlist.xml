@@ -7,6 +7,14 @@
         android:layout_height="match_parent"
         android:showDividers="middle|beginning|end"
         android:weightSum="1">
+        <TextView
+            android:layout_width="77dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/txtProductID"
+            android:layout_weight="0.12"
+            android:visibility="invisible" />
 
         <TextView
             android:layout_width="77dp"
@@ -38,7 +46,6 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Small Text"
             android:id="@+id/txtBrand" />
-
     </TableRow>
 
 </LinearLayout>

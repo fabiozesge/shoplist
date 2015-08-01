@@ -53,94 +53,95 @@
                         android:layout_height="fill_parent"
                         android:orientation="vertical">
 
-                        <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:ems="10"
-                            android:id="@+id/edtProcudtId"
-                            android:visibility="invisible" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="@string/edt_descripton"
-                            android:id="@+id/txtViewDescription" />
 
                         <EditText
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/edtDescription"
-                            android:hint="@string/hint_descripton" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="@string/edt_quantity"
-                            android:id="@+id/txtViewQuantity"
-                            android:layout_weight="1" />
-
-                        <EditText
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:ems="10"
-                            android:id="@+id/edtQuantity"
-                            android:hint="@string/hint_quantity"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="@string/edt_unit"
-                            android:id="@+id/txtViewUnit" />
-
-                        <Spinner
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/spnUnit"
-                            android:focusable="false"
-                            android:layout_columnWeight="1"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="@string/edt_brand"
-                            android:id="@+id/txtViewBrand"
-                            android:layout_columnWeight="1"
-                            android:layout_weight="1" />
-
-                        <EditText
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/edtBrand"
-                            android:hint="@string/hint_brand" />
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:id="@+id/lay_btn_Item">
-
-                            <Button
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/btn_save"
-                                android:id="@+id/btnItemSave"
-                                android:layout_weight="1" />
+                                android:inputType="number"
+                                android:ems="10"
+                                android:id="@+id/edtProcudtId"
+                                android:visibility="invisible" />
 
-                            <Button
+                        <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/btn_cancel"
-                                android:id="@+id/btnItemCancel"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="@string/edt_descripton"
+                                android:id="@+id/txtViewDescription" />
+
+                            <EditText
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/edtDescription"
+                                android:hint="@string/hint_descripton" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="@string/edt_quantity"
+                                android:id="@+id/txtViewQuantity"
                                 android:layout_weight="1" />
-                        </LinearLayout>
+
+                            <EditText
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number"
+                                android:ems="10"
+                                android:id="@+id/edtQuantity"
+                                android:hint="@string/hint_quantity"
+                                android:layout_weight="1" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="@string/edt_unit"
+                                android:id="@+id/txtViewUnit" />
+
+                            <Spinner
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/spnUnit"
+                                android:focusable="false"
+                                android:layout_columnWeight="1"
+                                android:layout_weight="1" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="@string/edt_brand"
+                                android:id="@+id/txtViewBrand"
+                                android:layout_columnWeight="1"
+                                android:layout_weight="1" />
+
+                            <EditText
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/edtBrand"
+                                android:hint="@string/hint_brand" />
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/lay_btn_Item">
+
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/btn_save"
+                                    android:id="@+id/btnItemSave"
+                                    android:layout_weight="1" />
+
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/btn_cancel"
+                                    android:id="@+id/btnItemCancel"
+                                    android:layout_weight="1" />
+                            </LinearLayout>
 
                     </LinearLayout>
 
