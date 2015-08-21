@@ -29,17 +29,27 @@
     <string name="hint_userlongitude">12,2321556</string>
 
     <string name="btn_save">Save</string>
+    <string name="btn_ok">Ok</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_map">Map</string>
     <string name="btn_photo">Photo</string>
     <string name="msg_title">Alert!</string>
     <string name="msg_exit">Are you sure?</string>
+    <string name="msg_delete">Are you confirm product exclusion?</string>
+    <string name="msg_delete_error">Error on exclude. </string>
+    <string name="msg_insert_error">Error on insert. </string>
+    <string name="msg_delete_all">Are you confirm all products exclusion?</string>
     <string name="msg_btn_positive">Yes</string>
     <string name="msg_btn_negative">No</string>
-    <string name="product_insert">New Product Insert</string>
+    <string name="user_insert">New User Added</string>
+    <string name="user_update">User Updated</string>
+    <string name="user_delete">User Deleted</string>
+    <string name="product_insert">New Product Added</string>
     <string name="product_update">Product Updated</string>
     <string name="product_delete">Product Deleted</string>
-    <string name="menu_deleteuser">Delete</string>
+    <string name="product_delete_all">All Products Deleted</string>
+    <string name="menu_edit">Edit</string>
+    <string name="menu_delete">Delete</string>
     <string name="menu_deleteall">Delete All</string>
 
     <string-array name="unitlist">

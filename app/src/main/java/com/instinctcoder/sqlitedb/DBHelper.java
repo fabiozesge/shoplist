@@ -29,6 +29,7 @@ public class DBHelper extends SQLiteOpenHelper{
                 + User.KEY_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
                 + User.KEY_name + " TEXT, "
                 + User.KEY_email + " TEXT, "
+                + User.KEY_photo + " TEXT, "
                 + User.KEY_latitude + " DOUBLE, "
                 + User.KEY_longitude+ " DOUBLE )";
 

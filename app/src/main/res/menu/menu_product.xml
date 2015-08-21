@@ -2,7 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="br.com.example.fabio.shoplist.ListActivity">
-    <item android:id="@+id/action_delete" android:title="@string/menu_deleteuser"
+    <item android:id="@+id/action_edit" android:title="@string/menu_edit"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_delete" android:title="@string/menu_delete"
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_deleteall" android:title="@string/menu_deleteall"
         android:orderInCategory="100" app:showAsAction="never" />

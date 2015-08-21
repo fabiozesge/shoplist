@@ -23,11 +23,13 @@ import android.widget.Toast;
 import com.instinctcoder.sqlitedb.Product;
 import com.instinctcoder.sqlitedb.ProductRepo;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ListActivity extends ActionBarActivity  implements android.view.View.OnClickListener {
+import static android.widget.Toast.*;
 
+public class ListActivity extends ActionBarActivity  implements android.view.View.OnClickListener {
     Button btnProductSave;
     Button btnProductCancel;
     EditText edtProductDescription;
@@ -57,19 +59,10 @@ public class ListActivity extends ActionBarActivity  implements android.view.Vie
         edtProductQuantity = (EditText)findViewById(R.id.edtQuantity);
         edtProductBarnd = (EditText)findViewById(R.id.edtBrand);
 
-        _Product_Id =0;
-        Intent intent = getIntent();//
-        _Product_Id =intent.getIntExtra(Product.KEY_ID, 0);
-        ProductRepo repo = new ProductRepo(this);
-        Product product = new Product();
-        product = repo.getProductById(_Product_Id);
 
-        edtProductDescription.setText(product.description);
-        edtProductQuantity.setText(String.valueOf(product.quantity));
-        edtProductBarnd.setText(product.brand);
-        spsProductUnit.setSelection(1);//ver como se faz
 
         btnProductSave.setOnClickListener(this);
+        btnProductCancel.setOnClickListener(this);
 
     }
 
@@ -83,20 +76,25 @@ public class ListActivity extends ActionBarActivity  implements android.view.Vie
             product.unit=spsProductUnit.getSelectedItem().toString();
             product.product_ID=_Product_Id;
             if (_Product_Id==0){
-                _Product_Id = repo.insert(product);
+                try {
+                    _Product_Id = repo.insert(product);
+                }catch (Exception Ex){
+                    SimpleMessage(getResources().getString(R.string.product_insert) + Ex.getMessage());
+                }
+                _Product_Id = 0;
 
-                Toast.makeText(this, getResources().getString(R.string.product_insert), Toast.LENGTH_SHORT).show();
+                makeText(this, getResources().getString(R.string.product_insert), LENGTH_SHORT).show();
             }else{
                 repo.update(product);
-                Toast.makeText(this, getResources().getString(R.string.product_update), Toast.LENGTH_SHORT).show();
+                makeText(this, getResources().getString(R.string.product_update), LENGTH_SHORT).show();
             }
             LoadProducts();
         }else if (view== findViewById(R.id.btnItemCancel)){
-            //finish();
-        }else if (view== findViewById(R.id.btnItemCancel)){
-            //finish();
+            LoadProducts();
         }
-
+        edtProductBarnd.setText("");
+        edtProductDescription.setText("");
+        edtProductQuantity.setText("");
 
     }
 
@@ -105,6 +103,7 @@ public class ListActivity extends ActionBarActivity  implements android.view.Vie
         registerForContextMenu(productListView);
         LoadProducts();
     }
+
 
     private void LoadProducts() {
         repo = new ProductRepo(this);
@@ -177,13 +176,10 @@ public class ListActivity extends ActionBarActivity  implements android.view.Vie
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        exit();
-                    }
-
-                    private void exit() {
                         finish();
                         System.exit(0);
                     }
+
                 });
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.msg_btn_negative),
                 new DialogInterface.OnClickListener() {
@@ -195,14 +191,73 @@ public class ListActivity extends ActionBarActivity  implements android.view.Vie
 
     }
 
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         getMenuInflater().inflate(R.menu.menu_product, menu);
     }
 
+    private void SimpleMessage(String AText){
+        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(ListActivity.this);
+        dlgAlert.setMessage(AText);
+        dlgAlert.setTitle(getResources().getString(R.string.msg_title));
+        dlgAlert.setPositiveButton(getResources().getString(R.string.btn_ok),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                       dialog.dismiss();
+                    }
+                });
+        dlgAlert.setCancelable(true);
+        dlgAlert.create().show();
+    }
+    private void LoadProductDetail(Integer AProduct){
+        ProductRepo repo = new ProductRepo(this);
+        Product product = new Product();
+        product = repo.getProductById(AProduct);
+
+        edtProductDescription.setText(product.description);
+        edtProductQuantity.setText(String.valueOf(product.quantity));
+        edtProductBarnd.setText(product.brand);
+        spsProductUnit.setSelection(1);//ver como se faz
+        tabhost.setCurrentTab(1);
+    }
+    private void ConfirmExclusion(String amessagetext, final Boolean adeleteall) {
+        AlertDialog alertDialog = new AlertDialog.Builder(ListActivity.this).create();
+        alertDialog.setTitle(getResources().getString(R.string.msg_title));
+        alertDialog.setMessage(amessagetext);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.msg_btn_positive),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        try {
+                            if (adeleteall) {
+                                repo.deleteall();
+                                Toast.makeText(ListActivity.this, getResources().getString(R.string.product_delete_all), Toast.LENGTH_SHORT);
+                            } else {
+                                repo.delete(_Product_Id);
+                                Toast.makeText(ListActivity.this, getResources().getString(R.string.product_delete), Toast.LENGTH_SHORT);
+                            }
+                            LoadProducts();
+                            _Product_Id = 0;
+                        }catch (Exception E){
+                            SimpleMessage(getResources().getString(R.string.msg_delete_error)+ E.getMessage());
+                        }
+                    }
+
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.msg_btn_negative),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+
+    }
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
         int id = item.getItemId();
 
@@ -210,11 +265,16 @@ public class ListActivity extends ActionBarActivity  implements android.view.Vie
         _Product_Id = Integer.parseInt(selectedproduc.get("id"));
         switch (id) {
             case R.id.action_delete:
-                repo.delete(_Product_Id);
-                Toast.makeText(this, getResources().getString(R.string.product_delete), Toast.LENGTH_SHORT);
-                LoadProducts();
+                ConfirmExclusion(getResources().getString(R.string.msg_delete), false);
+                break;
+            case R.id.action_deleteall:
+                ConfirmExclusion(getResources().getString(R.string.msg_delete_all), true);
+                break;
+            case R.id.action_edit:
+                LoadProductDetail(_Product_Id);
                 break;
         }
         return super.onContextItemSelected(item);
     }
+
 }

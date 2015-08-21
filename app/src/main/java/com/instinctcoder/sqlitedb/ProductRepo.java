@@ -28,6 +28,12 @@ public class ProductRepo {
         return (int) product_Id;
     }
 
+    public void deleteall() {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(Product.TABLE,"",null);
+        db.close();
+    }
+
     public void delete(int product_Id) {
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();

@@ -12,10 +12,13 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Date;
+
+import static br.com.example.fabio.shoplist.R.*;
 
 public class MapsActivity extends FragmentActivity implements LocationListener {
 
@@ -26,7 +29,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(layout.activity_maps);
 
         locationmanager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         setUpMapIfNeeded();
@@ -70,7 +73,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(id.map))
                     .getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
@@ -102,7 +105,11 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
             latitude = l.getLatitude();
             longitude =  l.getLongitude();
         }
-        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("Marker"));
+        MarkerOptions maker =new MarkerOptions();
+        maker.position(new LatLng(latitude, longitude));
+        maker.title("Marker");
+        maker.icon(BitmapDescriptorFactory.fromResource(mipmap.ic_launcher));
+        mMap.addMarker(maker);
         centro = CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude));
         zoom = CameraUpdateFactory.zoomTo(16);
 
