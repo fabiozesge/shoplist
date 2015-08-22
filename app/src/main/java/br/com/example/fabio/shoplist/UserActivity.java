@@ -44,23 +44,26 @@ public class UserActivity extends ActionBarActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 100;
     static final int REQUEST_MAP = 110;
+    private static final long DOUBLE_PRESS_INTERVAL = 250;
     private ImageView imgUser;
     private int _User_Id;
     private UserRepo repo;
     private User user;
+    private Bitmap imageBitmap;
+    private long lastPressTime;
 
     private TextView edtusername;
     private TextView edtuseremail;
     private TextView edtuserlongitude;
     private TextView edtuserlatitude;
     private String userphotopath;
+    Boolean saveimage;
 
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
+        File storageDir = Environment.getExternalStorageDirectory();
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -78,10 +81,11 @@ public class UserActivity extends ActionBarActivity {
             edtuseremail.setText(user.email);
             edtuserlatitude.setText(String.valueOf(user.latitude));
             edtuserlongitude.setText(String.valueOf(user.longitude));
-            FileInputStream is = new FileInputStream(user.photo);
-            is.read();
-            Bitmap bitmap = BitmapFactory.decodeStream(is);
-            imgUser.setImageBitmap(bitmap);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            imageBitmap = BitmapFactory.decodeFile(user.photo, options);
+            imgUser.setImageBitmap(imageBitmap);
+            userphotopath = user.photo;
         }
     }
 
@@ -89,12 +93,29 @@ public class UserActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+        saveimage = false;
+        lastPressTime = 0;
 
         imgUser = (ImageView)findViewById(R.id.img_user);
         edtuseremail = (TextView)findViewById(R.id.edtUserEmai);
         edtusername = (TextView)findViewById(R.id.edtUserName);
         edtuserlatitude = (TextView)findViewById(R.id.edtUserLatitude);
         edtuserlongitude = (TextView)findViewById(R.id.edtUserLongitude);
+
+        imgUser.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                long pressTime = System.currentTimeMillis();
+
+                if (pressTime - lastPressTime <= DOUBLE_PRESS_INTERVAL) {
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                    }
+                }
+                lastPressTime = pressTime;
+            }
+        } );
+
 
         SetButtonsClick();
         try {
@@ -119,9 +140,6 @@ public class UserActivity extends ActionBarActivity {
     }
 
     private void SetButtonsClick() {
-        final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/";
-        File newdir = new File(dir);
-        newdir.mkdirs();
 
         final Button buttonMap = (Button) findViewById(R.id.btn_UserMap);
         buttonMap.setOnClickListener(new View.OnClickListener() {
@@ -133,7 +151,24 @@ public class UserActivity extends ActionBarActivity {
         final Button buttonSave = (Button) findViewById(R.id.btn_UserSave);
         buttonSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if (saveimage) {
+                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                    File photofile;
+                    try {
+                        photofile = createImageFile();
+                        userphotopath = photofile.getAbsolutePath();
+                        FileOutputStream fo = new FileOutputStream(userphotopath);
+                        fo.write(bytes.toByteArray());
+                        fo.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 repo = new UserRepo(UserActivity.this);
+                //repo.deleteall();
+                //_User_Id = 0;
                 user = new User();
                 user.name= edtusername.getText().toString();
                 user.email=edtuseremail.getText().toString();
@@ -187,22 +222,11 @@ public class UserActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+            saveimage = true;
+            imageBitmap = (Bitmap) data.getExtras().get("data");
             imgUser.setImageBitmap(imageBitmap);
 
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            File photofile = null;
-            try {
-                photofile = createImageFile();
-                userphotopath = photofile.getAbsolutePath();
-                FileOutputStream fo = new FileOutputStream(userphotopath);
-                fo.write(bytes.toByteArray());
-                fo.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
         }
         if (requestCode == REQUEST_MAP && resultCode == RESULT_OK) {
             double latitude =data.getDoubleExtra("latitude",0);

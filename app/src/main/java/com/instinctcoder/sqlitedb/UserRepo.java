@@ -37,6 +37,13 @@ public class UserRepo {
         db.close();
     }
 
+    public void deleteall() {
+
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(User.TABLE, "", null);
+        db.close();
+    }
+
     public void update(User user) {
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();

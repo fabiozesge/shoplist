@@ -19,17 +19,17 @@
       <string name="hint_brand">Insert brand</string>
 
     <string name="edt_username">Name</string>
-    <string name="edt_useremail">E-mail</string>
-    <string name="edt_userlatitude">Latitude</string>
-    <string name="edt_userlongitude">Longitude</string>
+    <string name="edt_useremail" translatable="false">E-mail</string>
+    <string name="edt_userlatitude" translatable="false">Latitude</string>
+    <string name="edt_userlongitude" translatable="false">Longitude</string>
 
     <string name="hint_username">Johny Be Good</string>
     <string name="hint_useremail">me@company.com</string>
-    <string name="hint_userlatitude">22,232130233</string>
-    <string name="hint_userlongitude">12,2321556</string>
+    <string name="hint_userlatitude" translatable="false">22,232130233</string>
+    <string name="hint_userlongitude" translatable="false">12,2321556</string>
 
     <string name="btn_save">Save</string>
-    <string name="btn_ok">Ok</string>
+    <string name="btn_ok" translatable="false">Ok</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_map">Map</string>
     <string name="btn_photo">Photo</string>

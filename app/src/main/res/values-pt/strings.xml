@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lista de Compras</string>
+    <string name="action_adduser">Adicionar Usuário</string>
+    <string name="action_back">Voltar</string>
+    <string name="action_exit">Sair</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="btn_map">Mapa</string>
+    <string name="btn_photo">Foto</string>
+    <string name="btn_save">Salvar</string>
+    <string name="edt_brand">Marca</string>
+    <string name="edt_descripton">Descrição</string>
+    <string name="edt_quantity">Quantidade</string>
+    <string name="edt_unit">Unidade</string>
+    <string name="edt_username">Nome</string>
+    <string name="hint_brand">Informe a marca</string>
+    <string name="hint_descripton">Informe a descrição</string>
+    <string name="hint_quantity">Informe a quantidade</string>
+    <string name="hint_unit">Informe a unidade</string>
+    <string name="hint_useremail">eu@empresa.com</string>
+    <string name="hint_username">João da Silva</string>
+    <string name="menu_delete">Remover</string>
+    <string name="menu_deleteall">Remover todos</string>
+    <string name="menu_edit">Editar</string>
+    <string name="msg_btn_negative">Não</string>
+    <string name="msg_btn_positive">Sim</string>
+    <string name="msg_delete">Confirma a exclusão do produto?</string>
+    <string name="msg_delete_all">Cofirma a exclusão de todos os produtos?</string>
+    <string name="msg_delete_error">Erro ao excluir</string>
+    <string name="msg_exit">Está certo?</string>
+    <string name="msg_insert_error">Erro ao inserir</string>
+    <string name="msg_title">Alerta!</string>
+    <string name="product_delete">Produto Removido</string>
+    <string name="product_delete_all">Todos os Produtos Removidos</string>
+    <string name="product_insert">Novo Produto Adicionado</string>
+    <string name="product_update">Produto Atualizado</string>
+    <string name="splash_text">Carregando...</string>
+    <string name="tab_additem">Detalhes </string>
+    <string name="tab_shoplist">Lista de Compras</string>
+    <string name="title_activity_list">Lista de Compras</string>
+    <string name="title_activity_maps">Mapa</string>
+    <string name="title_activity_user">Usuário</string>
+    <string name="user_delete">Usuário Removido</string>
+    <string name="user_insert">Novo Usuário Adicionado</string>
+    <string name="user_update">Usuário Atualizado</string>
+</resources>
